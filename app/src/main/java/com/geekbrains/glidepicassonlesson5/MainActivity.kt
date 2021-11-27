@@ -3,8 +3,10 @@ package com.geekbrains.glidepicassonlesson5
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.room.Room
-import com.geekbrains.data.Cat
-import com.geekbrains.data.MyDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.geekbrains.glidepicassonlesson5.data.Cat
+import com.geekbrains.glidepicassonlesson5.data.MyDatabase
 import com.geekbrains.glidepicassonlesson5.databinding.ActivityMainBinding
 import java.util.concurrent.Executors
 
@@ -18,10 +20,19 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val MIGRATION_1_2 = object: Migration (1,2){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Доабвили колонку с текстом без null заполнение по дефолту
+                database.execSQL("ALTER TABLE cat_table ADD COLUMN favorite_food text NOT NULL DEFAULT ''")
+            }
+
+        }
 
         /**Room*/
         // Создаем бд  cat_db (название бд)
         val db = Room.databaseBuilder(applicationContext, MyDatabase::class.java, "cat_db")
+          //  .addMigrations(MIGRATION_1_2)
+           // .fallbackToDestructiveMigration() если не получилось сделать миграцию (редкий кейс)
             .build()
         val catDao = db.catDao()
 
@@ -32,9 +43,10 @@ class MainActivity : AppCompatActivity() {
         )
 
         // Вход в бд не из главного потока!! Rx  или Coroutines
-        Executors.newSingleThreadExecutor().execute{
+        Executors.newSingleThreadExecutor().execute {
             catDao.insertAll(cats)
-            val cats = catDao.getAll()
+            // val cats = catDao.getAll()
+            val cats = catDao.getSpecificAgeCats(arrayOf(1, 3))
             println("VVV $cats")
         }
 
