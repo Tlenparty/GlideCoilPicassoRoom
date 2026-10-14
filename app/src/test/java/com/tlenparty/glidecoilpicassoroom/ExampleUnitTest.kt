@@ -1,4 +1,4 @@
-package com.geekbrains.glidepicassonlesson5
+package com.tlenparty.glidecoilpicassoroom
 
 import org.junit.Test
 

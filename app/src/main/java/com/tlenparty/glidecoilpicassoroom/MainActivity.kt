@@ -1,13 +1,13 @@
-package com.geekbrains.glidepicassonlesson5
+package com.tlenparty.glidecoilpicassoroom
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.geekbrains.glidepicassonlesson5.data.Cat
-import com.geekbrains.glidepicassonlesson5.data.MyDatabase
-import com.geekbrains.glidepicassonlesson5.databinding.ActivityMainBinding
+import com.tlenparty.glidecoilpicassoroom.data.Cat
+import com.tlenparty.glidecoilpicassoroom.data.MyDatabase
+import com.tlenparty.glidecoilpicassoroom.databinding.ActivityMainBinding
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
